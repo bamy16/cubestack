@@ -1,5 +1,9 @@
 import * as THREE from 'three'
+import { TWEEN } from './jsm/libs/tween.module.min.js'
+import Stats from './jsm/libs/stats.module.js'
 import { TrackballControls } from './jsm/controls/TrackballControls.js'
+//npm install three
+//npm install tweenjs
 
 // Scene
 const scene = new THREE.Scene();
@@ -37,49 +41,149 @@ const vertices = new Float32Array( [
     0.0,  1.0,  0.0 
 	
 ] );
-const vertices2 = new Float32Array( [
-	1.0, 0.0,  0.0,
-	0.0, 1.0,  0.0,
-	1.0,  0.0,  1.0,
-
-    1.0,  0.0,  1.0,
-    0.0, 1.0,  0.0,
-    0.0, 1.0, 1.0
-
-] );
-
-//plano base
+//cara 1 - amarillo
 geometry1.setAttribute( 'position', new THREE.BufferAttribute( vertices, 3 ) );
 const material1 = new THREE.MeshBasicMaterial( { color: 0xfff000 } ); 
 material1.side=THREE.DoubleSide;
 const mesh1 = new THREE.Mesh( geometry1, material1 );
-scene.add(mesh1); // Add box to canvas amarillo
+scene.add(mesh1);
 
-//objeto rotado
+//cara 2
 geometry2.setAttribute( 'position', new THREE.BufferAttribute( vertices, 3 ) );
 const material2 = new THREE.MeshBasicMaterial( { color: 0x00fff0 } );
 material2.side=THREE.DoubleSide;
 var mesh2 = new THREE.Mesh( geometry2, material2 );
 mesh2.rotateX( Math.PI/2);
-scene.add(mesh2); // Add box to canvas verdecito databiz
+tweenX(mesh2, 0,0, Math.PI/2, 300);
+scene.add(mesh2);
+
+//  
+//setTimeout(function() { scene.add(mesh2); },200); // Add box to canvas celeste
+
 
 geometry3.setAttribute( 'position',  new THREE.BufferAttribute( vertices, 3 ));
 const material3 = new THREE.MeshBasicMaterial( { color: 0xffffff } );
 material3.side=THREE.DoubleSide;
 var mesh3 = new THREE.Mesh( geometry3, material3 );
-mesh3.rotateX( Math.PI/2);
-mesh3.rotateY( Math.PI/2);
-scene.add(mesh3); // Add box to canvas blanco
+setTimeout(function() { mesh3.rotateX( Math.PI/2); },1000);
+setTimeout(function() { mesh3.rotateY( Math.PI/2); },2000);
+tweenY(mesh3,Math.PI/2);
+setTimeout(function() { scene.add(mesh3); },3000);
+
 
 geometry4.setAttribute( 'position',  new THREE.BufferAttribute( vertices, 3 ));
 const material4 = new THREE.MeshBasicMaterial( { color: 0x0fff0ff } );
 material4.side=THREE.DoubleSide;
 var mesh4 = new THREE.Mesh( geometry4, material4 );
+//mesh4.position.x = mesh3.position.y;
+//mesh4.position.x = mesh3.position.y;
 mesh4.rotateX( Math.PI/2);
 mesh4.rotateY( Math.PI/2);
 mesh4.translateY(1);
 mesh4.rotateX( Math.PI/2);
-scene.add(mesh4); // Add box to canvas
+//scene.add(mesh4);
+setTimeout(function() {mesh4.rotateX( Math.PI/2); },6000);
+setTimeout(function() {mesh4.rotateY( Math.PI/2); },7000);
+setTimeout(function() {mesh4.translateY(1); },8000);
+setTimeout(function() {mesh4.rotateX( Math.PI/2); },9000)
+setTimeout(function() {tweenX2(mesh4, Math.PI/2, 300); },9000);
+//setTimeout(function() { scene.add(mesh4); },10000);
+
+
+
+
+//mesh4.rotateX( Math.PI/2);
+//setTimeout(function() { tweenX(mesh4, mesh4.rotation.x, mesh4.rotation.y, Math.PI/2, 300); },4000);
+//scene.add(mesh4);
+//tweenX(mesh4, mesh4.rotation.x, mesh4.rotation.y, Math.PI/2, 300);
+//setTimeout(function() { scene.add(mesh4); },4000);
+
+
+//tweenX2(mesh4,mesh4.position.xRotation,mesh4.position.yRotation, Math.PI/2, 300);
+//setTimeout(function() { scene.add(mesh4); },0);
+//mesh3_a.translateY(1);
+//mesh4.rotateX( Math.PI/2);
+//scene.add(mesh4);
+//var mesh4_a = mesh3_a.clone();
+//mesh4_a.position.x = mesh4.position.x;
+//mesh4_a.position.y = mesh4.position.y;
+//mesh4_a.position.z = mesh4.position.z;
+//mesh4_a.material = material4;
+////mesh4.rotateX( Math.PI/2);
+//tweenX(mesh4_a, mesh4_a.xRotation, Math.PI/2, 0);
+//setTimeout(function() { scene.add(mesh4_a); },0);
+
+
+
+function tweenX(mesh, angle_iX, angleiY, angle_fX, t_delay){
+    var tween = new TWEEN.Tween({ x: mesh.position.x, y: mesh.position.y, z: mesh.position.z, xRotation: angle_iX, yRotation: angleiY })
+       .to({ x: mesh.position.x, y: mesh.position.y, z: mesh.position.z, xRotation: angle_fX, yRotation: angleiY }, 2000)
+       .onUpdate((coords) => {
+            mesh.position.x = coords.x;
+            mesh.position.y = coords.y;
+            mesh.position.z = coords.z;
+            mesh.rotation.x = coords.xRotation;
+            mesh.rotation.y = coords.yRotation;
+
+       })
+       .repeat(0)
+       .delay(t_delay);
+    tween.start();
+};
+function tweenX2(mesh,  angle_fX, t_delay){
+    var tween = new TWEEN.Tween({ x: mesh.position.x, y: mesh.position.y, z: mesh.position.z })
+       .to({ x: mesh.position.x, y: mesh.position.y, z: mesh.position.z, xRotation: angle_fX}, 2000)
+       .onUpdate((coords) => {
+            mesh.position.x = coords.x;
+            mesh.position.y = coords.y;
+            mesh.position.z = coords.z;
+            mesh.rotation.x = coords.xRotation;
+       })
+       .repeat(0)
+       .delay(t_delay);
+    tween.start();
+};
+function tweenY(mesh, angle){
+    var tween = new TWEEN.Tween({ x: mesh.position.x, y: mesh.position.y, z: mesh.position.z, yRotation: 0 })
+       .to({ x: mesh.position.x, y: mesh.position.y, z: mesh.position.z, yRotation: angle }, 2000)
+       .onUpdate((coords) => {
+            mesh.position.x = coords.x;
+            mesh.position.y = coords.y;
+            mesh.position.z = coords.z;
+            mesh.rotation.y = coords.yRotation;
+       })
+       .repeat(0)
+       .delay(3000);
+    tween.start();
+};
+function tweenZ(mesh, angle){
+    const tween = new TWEEN.Tween({ x: mesh.position.x, y: mesh.position.y, xRotation: 0 })
+       .to({ x: mesh.position.x, y: mesh.position.y, zRotation: angle }, 2000)
+       .onUpdate((coords) => {
+            mesh.position.x = coords.x;
+            mesh.position.y = coords.y;
+            mesh.rotation.z = coords.zRotation;
+       })
+       .repeat(0)
+       .delay(300);
+    tween.start();
+};
+function tween_translateY(mesh, unit){
+    const tween = new TWEEN.Tween({ x: mesh.position.x, y: mesh.position.y, z: mesh.position.z})
+       .to({ x: mesh.position.x, y: mesh.position.y + unit, z: mesh.position.z }, 2000)
+       .onUpdate((coords) => {
+            mesh.position.x = coords.x;
+            mesh.position.y = coords.y;
+            mesh.position.z = coords.z;
+            //mesh.rotation.y = coords.yRotation;
+       })
+       .repeat(0)
+       .delay(5000);
+    tween.start();
+};
+
+
+
 
 
 geometry5.setAttribute( 'position',  new THREE.BufferAttribute( vertices, 3 ));
@@ -92,7 +196,7 @@ mesh5.translateY(1);
 mesh5.rotateX( Math.PI/2);
 mesh5.translateY(1);
 mesh5.rotateX( Math.PI/2);
-scene.add(mesh5); // Add box to canvas
+//scene.add(mesh5); // Add box to canvas
 
 
 geometry6.setAttribute( 'position',  new THREE.BufferAttribute( vertices, 3 ));
@@ -102,10 +206,49 @@ var mesh6 = new THREE.Mesh( geometry6, material6 );
 mesh6.translateY(1);
 mesh6.rotateX( Math.PI/2);
 
-scene.add(mesh6); // Add box to canvas
-//mesh3.rotation.setFromVector3(new THREE.Vector3( Math.PI / 2, 0, 0));
-//scene.add(mesh2); // Add box to canvas
+//scene.add(mesh6); // Add box to canvas
 
+var group = new THREE.Group();
+//group.add( mesh1 );
+//group.add( mesh2 );
+//group.add( mesh3 );
+//group.add( mesh4 );
+//group.add( mesh5 );
+//group.add( mesh6 );
+//scene.add( group );
+
+var group_aux = [];
+for (let i=0; i<6; i++) {
+    for(let j=0; j<=10; j++){
+    group_aux[i] = group.clone();
+    group_aux[i].translateX(j);
+    //scene.add(group_aux[i]);
+    }
+};
+//
+//function animate(){
+//    requestAnimationFrame(animate);
+//    //group.position.x = (Math.PI/2)*0.001//sin(Date.now() *0.001)*0.5;
+//
+//    mesh2.userData.mixer = new THREE.AnimationMixer(mesh2);
+//    let track = new THREE.VectorKeyframeTrack(
+//      '.position', [0, 1, 2], [
+//        mesh1.position.x,
+//        mesh1.position.y,
+//        mesh1.position.z,
+//        mesh2.position.x,
+//        mesh2.position.y,
+//        mesh2.position.z,
+//      ]
+//    );
+//    const animationClip = new THREE.AnimationClip(null, 5, [track]);
+//    const animationAction = mesh1.userData.mixer.clipAction(animationClip);
+//    animationAction.setLoop(THREE.LoopOnce);
+//    animationAction.play();
+//    mesh2.userData.clock = new THREE.Clock();
+//    animationsObjects.push(mesh2);
+//    renderer.render(scene,camera);
+//}
 // Create spheres: 
 const sphereMeshes = [];
 const sphereGeometry = new THREE.SphereGeometry(0.1, 32, 32); // Define geometry
@@ -147,6 +290,7 @@ for (let i=0; i<6; i++) {
     // lightHelpers[i] = new THREE.PointLightHelper(lights[i]);
     // scene.add(lightHelpers[i]);
 };
+
 //Trackball Controls for Camera 
 const controls = new TrackballControls(camera, renderer.domElement); 
 //controls.rotateSpeed = 4;
@@ -171,6 +315,7 @@ const rendering = function() {
     theta += dTheta;
 // Store trig functions for sphere orbits 
     // MUST BE INSIDE RENDERING FUNCTION OR THETA VALUES ONLY GET SET ONCE
+
     const trigs = [
         {x: Math.cos(theta*1.05), y: Math.sin(theta*1.05), z: Math.cos(theta*1.05), r: 2},
         {x: Math.cos(theta*0.8), y: Math.sin(theta*0.8), z: Math.sin(theta*0.8), r: 2.25},
@@ -185,4 +330,17 @@ const rendering = function() {
     };
 renderer.render(scene, camera);
 }
+function animate() {
+    requestAnimationFrame(animate);
+
+    controls.update();
+
+    TWEEN.update();
+
+    renderer.render(scene, camera);
+
+    stats.update();
+}
 rendering();
+
+animate();
