@@ -22,20 +22,19 @@ function main(){
         camera.aspect = window.innerWidth / window.innerHeight; // Update aspect ratio
         camera.updateProjectionMatrix(); // Apply changes
     })
-   
-    var group = create_cube();
-    scene.add(group);
-    //setTimeout(function() {group2 = create_cube(); group2.translateX(4);},1000);
-    //group2.matrix = group.matrix;
-    //group2.customDepthMaterial = group.customDepthMaterial;
-    //group2.translateX(1);
-    //scene.add(group);
+    var cube = new THREE.Group();
+    var stack = new THREE.Group();
+    cube = create_cube();
+    //scene.add(cube);
+    setTimeout(function() 
+    {
+        for (let i = 0; i<=10; i++){
+            cube = create_cube();
+            scene.add(cube.translateY(i));
+        }
+    },2500);
+    
 
-    //for(let i=1;i<3;i++){
-    //        group = create_cube();
-    //        group.translateX(i);
-    //        scene.add(group);
-    //}
 
     function create_cube(){
       //setTimeout(function() {
@@ -75,7 +74,7 @@ function main(){
         var mesh2 = new THREE.Mesh( geometry2, material2 );
         mesh2.matrixAutoUpdate = true;
         if (tw_rotate_X(mesh2,mesh2.position.x, mesh2.position.y,mesh2.position.z, mesh2.rotation.x,mesh2.rotation.y, Math.PI/2, 300)){
-            mesh2.rotateX( Math.PI/2);
+            //mesh2.rotateX( Math.PI/2);
             //8scene.add(mesh2);
         }
 
@@ -138,7 +137,7 @@ function main(){
         rot_x_5 = mesh5.rotation.x;
         rot_y_5 = mesh5.rotation.y;
         setTimeout(function() {
-            if(tw_rotate_Y(mesh5, pos_x_5, pos_y_5, pos_z_5, rot_x_5, rot_y_5, -Math.PI/2, 300)){
+            if(tw_rotate_Y(mesh5, pos_x_5, pos_y_5, pos_z_5, rot_x_5, rot_y_5, -Math.PI/2, 400)){
                 //scene.add(mesh5); 
                 mesh5.matrixAutoUpdate = true;
             }
@@ -317,10 +316,25 @@ function main(){
         
         scene.add(lights[i]);
     // Add light helpers for each light
-        // lightHelpers[i] = new THREE.PointLightHelper(lights[i]);
-        // scene.add(lightHelpers[i]);
+        //lightHelpers[i] = new THREE.PointLightHelper(lights[i]);
+        //scene.add(lightHelpers[i]);
     };
 
+    const spotLight = new THREE.SpotLight( 0xffffff );
+    spotLight.position.set( 10, 10, 10 );
+    spotLight.castShadow = true;
+
+    spotLight.shadow.mapSize.width = 1024;
+    spotLight.shadow.mapSize.height = 1024;
+
+    spotLight.shadow.camera.near = 500;
+    spotLight.shadow.camera.far = 4000;
+    spotLight.shadow.camera.fov = 30;
+
+    scene.add( spotLight );
+    const light = new THREE.PointLight( 0xffffff, 1, 1000 );
+    light.position.set( 10, 10, 10 );
+    scene.add( light );
     //Trackball Controls for Camera 
     const controls = new TrackballControls(camera, renderer.domElement); 
     //controls.rotateSpeed = 4;
