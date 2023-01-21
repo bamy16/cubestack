@@ -22,22 +22,23 @@ function main(){
         camera.aspect = window.innerWidth / window.innerHeight; // Update aspect ratio
         camera.updateProjectionMatrix(); // Apply changes
     })
+    // CUBE CREATION
     var cube = new THREE.Group();
     var stack = new THREE.Group();
     cube = create_cube();
-    //scene.add(cube);
     setTimeout(function() 
     {
-        for (let i = 0; i<=10; i++){
+        for (let i = 0; i<=5; i++){
             cube = create_cube();
+            stack.add(cube);
             scene.add(cube.translateY(i));
         }
-    },2500);
+    },2000);
     
 
 
     function create_cube(){
-      //setTimeout(function() {
+        //FUNCION QUE PERMITE CREAR EL CUBO CARA POR CARA
         var geometry1 = new THREE.BufferGeometry();
         var geometry2 = new THREE.BufferGeometry();
         var geometry3 = new THREE.BufferGeometry();
@@ -57,42 +58,36 @@ function main(){
             0.0,  1.0,  0.0 
         
         ] );
-        //cara 1 - amarillo
+        //side 1
         geometry1.setAttribute( 'position', new THREE.BufferAttribute( vertices, 3 ) );
-        const material1 = new THREE.MeshBasicMaterial( { color: 0xfff000 } ); 
+        const material1 = new THREE.MeshBasicMaterial( { color: 'yellow' } ); 
         material1.side=THREE.DoubleSide;
         var mesh1 = new THREE.Mesh( geometry1, material1 );
         mesh1.matrixAutoUpdate = true;
 
-        //scene.add(mesh1);
 
-
-        //cara 2
+        //side 2
         geometry2.setAttribute( 'position', new THREE.BufferAttribute( vertices, 3 ) );
-        const material2 = new THREE.MeshBasicMaterial( { color: 0x00fff0 } );
+        const material2 = new THREE.MeshBasicMaterial( { color: 'white' } );
         material2.side=THREE.DoubleSide;
         var mesh2 = new THREE.Mesh( geometry2, material2 );
         mesh2.matrixAutoUpdate = true;
-        if (tw_rotate_X(mesh2,mesh2.position.x, mesh2.position.y,mesh2.position.z, mesh2.rotation.x,mesh2.rotation.y, Math.PI/2, 300)){
-            //mesh2.rotateX( Math.PI/2);
-            //8scene.add(mesh2);
-        }
+        tw_rotate_X(mesh2,mesh2.position.x, mesh2.position.y,mesh2.position.z, mesh2.rotation.x,mesh2.rotation.y, Math.PI/2, 300);
 
 
+        //side 3
         geometry3.setAttribute( 'position',  new THREE.BufferAttribute( vertices, 3 ));
-        const material3 = new THREE.MeshBasicMaterial( { color: 0xffffff } );
+        const material3 = new THREE.MeshBasicMaterial( { color: 'green' } );
         material3.side=THREE.DoubleSide;
         var mesh3 = new THREE.Mesh( geometry3, material3 );
         mesh3.matrixAutoUpdate = true;
         mesh3.matrix = mesh2.matrix; 
-        if (tw_rotate_Y(mesh3,mesh3.position.x, mesh3.position.y,mesh3.position.z, Math.PI/2, mesh3.rotation.y, Math.PI/2, 2500)){
-            //scene.add(mesh3);
-        }
+        tw_rotate_Y(mesh3,mesh3.position.x, mesh3.position.y,mesh3.position.z, Math.PI/2, mesh3.rotation.y, Math.PI/2, 2500);
 
 
-
+        //side 4
         geometry4.setAttribute( 'position',  new THREE.BufferAttribute( vertices, 3 ));
-        const material4 = new THREE.MeshBasicMaterial( { color: 0x0fff0ff } );
+        const material4 = new THREE.MeshBasicMaterial( { color: 'white' } );
         material4.side=THREE.DoubleSide;
         var mesh4 = new THREE.Mesh( geometry4, material4 );
         var pos_x =0;
@@ -100,7 +95,6 @@ function main(){
         var pos_z =0;
         var rot_x = 0;
         var rot_y = 0;
-
         mesh4.matrixAutoUpdate = false;
         mesh4.translateY(1);
         pos_x = mesh4.position.x;
@@ -109,16 +103,14 @@ function main(){
         rot_x = mesh4.rotation.x;
         rot_y = mesh4.rotation.y;
         setTimeout(function() {
-            if(tw_rotate_X(mesh4, pos_x, pos_y, pos_z, rot_x, rot_y, Math.PI/2, 300)){
-                //scene.add(mesh4); 
-                mesh4.matrixAutoUpdate = true;
-            }
+            tw_rotate_X(mesh4, pos_x, pos_y, pos_z, rot_x, rot_y, Math.PI/2, 300);
+            mesh4.matrixAutoUpdate = true;
         }, 6000);
 
 
-
+        //side 5
         geometry5.setAttribute( 'position',  new THREE.BufferAttribute( vertices, 3 ));
-        const material5 = new THREE.MeshBasicMaterial( { color: 0x0f0ff0 } );
+        const material5 = new THREE.MeshBasicMaterial( { color: 'green' } );
         material5.side=THREE.DoubleSide;
         var mesh5 = new THREE.Mesh( geometry5, material5 );
         mesh5.matrix = mesh4.matrix;
@@ -128,7 +120,6 @@ function main(){
         var pos_z_5 =0;
         var rot_x_5 = 0;
         var rot_y_5 = 0;
-
         mesh5.matrixAutoUpdate = false;
         mesh5.translateX(1);
         pos_x_5 = mesh5.position.x;
@@ -137,58 +128,33 @@ function main(){
         rot_x_5 = mesh5.rotation.x;
         rot_y_5 = mesh5.rotation.y;
         setTimeout(function() {
-            if(tw_rotate_Y(mesh5, pos_x_5, pos_y_5, pos_z_5, rot_x_5, rot_y_5, -Math.PI/2, 400)){
-                //scene.add(mesh5); 
-                mesh5.matrixAutoUpdate = true;
-            }
+            tw_rotate_Y(mesh5, pos_x_5, pos_y_5, pos_z_5, rot_x_5, rot_y_5, -Math.PI/2, 400);
+            mesh5.matrixAutoUpdate = true;
+            
         }, 9500);
 
 
-
+        //side 6
         geometry6.setAttribute( 'position',  new THREE.BufferAttribute( vertices, 3 ));
-        const material6 = new THREE.MeshBasicMaterial( { color: 0x0f0f0f } );
+        const material6 = new THREE.MeshBasicMaterial( { color: 'yellow' } );
         material6.side=THREE.DoubleSide;
         var mesh6 = new THREE.Mesh( geometry6, material6 );
         var pos_z_f =0;
         pos_z_f = mesh6.position.z;
         pos_z_f = pos_z_f +1;
         setTimeout(function() {
-            if(translate_Z(mesh6, mesh6.position.x, mesh6.position.y, mesh6.position.z, pos_z_f, 1000)){
-            //mesh6.rotateX( Math.PI/2);
-                //scene.add(mesh6); 
-            }
+            translate_Z(mesh6, mesh6.position.x, mesh6.position.y, mesh6.position.z, pos_z_f, 1000);            
         }, 11000);
 
-
-        //scene.add(mesh1);
-        //scene.add(mesh2);
-        //scene.add(mesh3);
-        //scene.add(mesh4);
-        //scene.add(mesh5);
-        //scene.add(mesh6);
-        var group = new THREE.Group();
-        group.add(mesh1);
-        group.add(mesh2);           
-        group.add(mesh3);
-        group.add(mesh4);
-        group.add(mesh5);
-        group.add(mesh6);
-        return group;
         
-        
-        //var group2 = group.clone(true);
-        //scene.add(group2.translateX(5));        
-        //var group_aux = [];
-
-        //for (let i=0; i<6; i++) {
-        //    for(let j=1; j<=10; j++){
-        //    group_aux[i] = group.clone();
-        //    group_aux[i].translateX(j);
-        //    scene.add(group_aux[i]);
-        //    }
-        //};
-
-        //},3000);
+        var cube = new THREE.Group();
+        cube.add(mesh1);
+        cube.add(mesh2);           
+        cube.add(mesh3);
+        cube.add(mesh4);
+        cube.add(mesh5);
+        cube.add(mesh6);
+        return cube;
     };
 
    
@@ -196,6 +162,7 @@ function main(){
 
 
     function tw_rotate_X(mesh, pos_x, pos_y, pos_z, angle_iX, angleiY, angle_fX, t_delay){
+        //FUNCION QUE PERMITE ROTAR UNA CARA DEL CUBO angle_fX ANGULOS EN EL EJE X
         try{
             var tween = new TWEEN.Tween({ x: pos_x, y: pos_y, z: pos_z, xRotation: angle_iX, yRotation: angleiY })
            .to({ x: mesh.position.x, y: mesh.position.y, z: mesh.position.z, xRotation: angle_fX, yRotation: angleiY }, 2000)
@@ -212,12 +179,11 @@ function main(){
             tween.start();
         }catch (error) {
             console.error(error);
-            return -1;
         }
-        return 1;
     };
 
     function tw_rotate_Y(mesh, pos_x, pos_y, pos_z, angle_iX, angleiY, angle_fY, t_delay){
+        //FUNCION QUE PERMITE ROTAR UNA CARA DEL CUBO angle_fY ANGULOS EN EL EJE Y
         try{
             var tween = new TWEEN.Tween({ x: pos_x, y: pos_y, z: pos_z, xRotation: angle_iX, yRotation: angleiY })
            .to({ x: mesh.position.x, y: mesh.position.y, z: mesh.position.z, xRotation: angle_iX, yRotation: angle_fY }, 2000)
@@ -234,11 +200,11 @@ function main(){
             tween.start();
         }catch (error) {
             console.error(error);
-            return -1;
         }
-        return 1;
     };
+
     function translate_Z(mesh,pos_x,pos_y,pos_z,pos_z_f,t_delay){
+        //FUNCION QUE PERMITE TRANSLADAR UNA CARA DEL CUBO 1 UNIDAD EN EL EJE Z
         try{
             var tween = new TWEEN.Tween({ x:  pos_x, y:  pos_y, z: pos_z })
            .to({ x: pos_x, y: pos_y, z: pos_z_f }, 100)
@@ -252,11 +218,11 @@ function main(){
             tween.start();
         }catch (error) {
             console.error(error);
-            return -1;
         }
-        return 1;
     };
+
     function translate_Y(mesh){
+        //FUNCION QUE PERMITE TRANSLADAR UNA CARA DEL CUBO 1 UNIDAD EN EL EJE Y
         try{
             var tween = new TWEEN.Tween({ x:  mesh.position.y, y:  mesh.position.y, z:  mesh.position.y })
            .to({ x: mesh.position.x, y: mesh.translateY(1), z: mesh.position.z }, 2000)
@@ -270,9 +236,7 @@ function main(){
             tween.start();
         }catch (error) {
             console.error(error);
-            return -1;
         }
-        return 1;
     };
 
 
