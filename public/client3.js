@@ -2,8 +2,10 @@ import * as THREE from 'three'
 import { TWEEN } from './jsm/libs/tween.module.min.js'
 import Stats from './jsm/libs/stats.module.js'
 import { TrackballControls } from './jsm/controls/TrackballControls.js'
-//npm install three
-//npm install tweenjs
+
+//CANTIDAD DE CUBOS DEL STACK
+const cube_num = 5;
+const axis = "Z";
 
 function main(){
     // Scene
@@ -22,17 +24,35 @@ function main(){
         camera.aspect = window.innerWidth / window.innerHeight; // Update aspect ratio
         camera.updateProjectionMatrix(); // Apply changes
     })
+
     // CUBE CREATION
     var cube = new THREE.Group();
     var stack = new THREE.Group();
     cube = create_cube();
     setTimeout(function() 
     {
-        for (let i = 0; i<=5; i++){
-            cube = create_cube();
-            stack.add(cube);
-            scene.add(cube.translateY(i));
-        }
+        if( axis == 'X'){
+            for (let i = 0; i<=cube_num; i++){
+                cube = create_cube();
+                stack.add(cube);
+                scene.add(cube.translateX(i));
+            }
+        } 
+        if(axis == 'Y'){
+            for (let i = 0; i<=cube_num; i++){
+                cube = create_cube();
+                stack.add(cube);
+                scene.add(cube.translateY(i));
+            }
+        } 
+        
+        if(axis == 'Z'){
+            for (let i = 0; i<=cube_num; i++){
+                cube = create_cube();
+                stack.add(cube);
+                scene.add(cube.translateZ(i));
+            }
+        } 
     },2000);
     
 
